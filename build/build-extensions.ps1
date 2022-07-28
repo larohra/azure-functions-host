@@ -1,7 +1,8 @@
 param (
   [string]$buildNumber = "0",  
   [string]$suffix = "",  
-  [string]$hashesForHardlinksFile = "hashesForHardlinks.txt"
+  [string]$hashesForHardlinksFile = "hashesForHardlinks.txt",
+  [string]$runtime = ""
 )
 
 $rootDir = Split-Path -Parent $PSScriptRoot
@@ -297,7 +298,12 @@ if (Test-Path $buildOutput) {
 Write-Host "Extensions version: $extensionVersion"
 Write-Host ""
 
-BuildRuntime "win-x86"
-BuildRuntime "win-x64"
+if ($runtime) {
+  BuildRuntime $runtime
+}
+else {
+  BuildRuntime "win-x86"
+  BuildRuntime "win-x64"
+}
 
 CreateSiteExtensions
